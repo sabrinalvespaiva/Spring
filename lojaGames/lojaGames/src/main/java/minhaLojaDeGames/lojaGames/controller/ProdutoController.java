@@ -1,0 +1,70 @@
+package minhaLojaDeGames.lojaGames.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import minhaLojaDeGames.lojaGames.model.Produto;
+import minhaLojaDeGames.lojaGames.repository.ProdutoRepository;
+
+@RestController
+@RequestMapping("/produtos")
+@CrossOrigin("*")
+public class ProdutoController {
+	
+	@Autowired
+	private ProdutoRepository repository;
+	
+	//endPoint capaz de trazer todos os produtos 
+	@GetMapping 
+	public ResponseEntity<List<Produto>>GetAll(){
+		return ResponseEntity.ok(repository.findAll());
+	}
+	
+	//endPoint capaz de trazer um unico produto por ID
+	@GetMapping ("/{id}")
+	public ResponseEntity<Produto>GetById(@PathVariable long id){
+		return repository.findById(id).map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.notFound().build());
+	}
+	
+	//endPoint com a função de trazer um unico produto pelo nome
+	@GetMapping ("/nome{nome}")
+	public ResponseEntity<List<Produto>> GetByNome(@PathVariable String nome){
+		return ResponseEntity.ok(repository.findAllByNomeContainingIgnoreCase(nome));
+	}
+	
+	//endPoint com a função de gravar um novo produto no banco de dados
+	@PostMapping 
+	public ResponseEntity<Produto> post (@RequestBody Produto produto){
+		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(produto));
+	}
+	
+	//endPoint com a função de atualizar dados de um produto
+	@PutMapping 
+	public ResponseEntity<Produto> put (@RequestBody Produto produto){
+		return ResponseEntity.status(HttpStatus.OK).body(repository.save(produto));
+	}
+	
+	//endPoint com a função de apagar um produto do banco de dados
+	@DeleteMapping("/{id}")
+	public void delete (@PathVariable long id) {
+		repository.deleteById(id);
+	}
+	
+	
+	
+	
+
+}

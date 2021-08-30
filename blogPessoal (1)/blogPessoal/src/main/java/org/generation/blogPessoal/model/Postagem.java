@@ -38,15 +38,17 @@ public class Postagem {
 	private String texto;
 	
 	
+	//salva a data exata e os minutos da postagem
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date = new java.sql.Date(System.currentTimeMillis());
 	
-	//anotaçoes para fazer a classe tema conversar com esse atributo
+	//anotaçoes para fazer a classe tema conversar com o atributo tema
 	//tema é um objeto entao é declarado como um objeto Json(entre chaves)
 	@ManyToOne
 	@JsonIgnoreProperties("postagem")
 	private Tema tema;
-
+	
+	//criação dos metodos getters(pegar) e setters(definir)
 	public long getId() {
 		return id;
 	}
