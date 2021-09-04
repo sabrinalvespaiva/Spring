@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 
 //informa por qual URI a classe sera acessada, qualquer requisição/postagens vai consumir essa classe
+//nome que usarei para ver essas informaçoes no postman
 @RequestMapping("/postagens")
 
 //informa que a classe vai aceitar requisiçoes de qualquer origem
@@ -37,7 +38,7 @@ public class PostagemController {
 	}
 	
 	//assim que for feita uma requisiçao do tipo get em postagem e passado um valor(id), esse metodo sera acessado
-	//e ira localizar essa variavel atraves do @pathVariable q ira devolver o objeto dentro desse id ou um not fould caso ele nao exista
+	//e ira localizar essa variavel atraves do @pathVariable q ira devolver o objeto dentro desse id ou um not found caso ele nao exista
 	@GetMapping("/{id}")
 	public ResponseEntity<Postagem> GetById(@PathVariable long id){
 		return repository.findById(id).map(resp -> ResponseEntity.ok(resp))
@@ -53,6 +54,7 @@ public class PostagemController {
 	}
 
 	//esse recurso sera pego pelo body, cria uma nova postagem, CREATE 
+	//endPoint com a função de gravar um novo produto no banco de dados
 	@PostMapping
 	public ResponseEntity<Postagem> post (@RequestBody Postagem postagem){
 		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
