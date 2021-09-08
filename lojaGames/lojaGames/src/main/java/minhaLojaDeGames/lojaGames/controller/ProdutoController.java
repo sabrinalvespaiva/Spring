@@ -19,6 +19,7 @@ import minhaLojaDeGames.lojaGames.model.Produto;
 import minhaLojaDeGames.lojaGames.repository.ProdutoRepository;
 
 @RestController
+//nome que usarei para encontrar essas informaçoes no posteman
 @RequestMapping("/produtos")
 @CrossOrigin("*")
 public class ProdutoController {

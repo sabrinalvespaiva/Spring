@@ -28,6 +28,7 @@ public class Produto {
 	@Size(min = 5, max = 50)
 	private String plataforma; 
 	
+	//produto é minha foreigh key
 	@ManyToOne
 	@JsonIgnoreProperties("produto")
 	private Categoria categoria;
@@ -56,12 +57,16 @@ public class Produto {
 		this.plataforma = plataforma;
 	}
 
-	public Categoria getProduto() {
+	public Categoria getCategoria() {
 		return categoria;
 	}
 
-	public void setProduto(Categoria categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+
+
+	
+	
 
 }

@@ -1,24 +1,24 @@
-package org.generation.blogPessoal.service;
+package minhaLojaDeGames.lojaGames.service;
 
 import java.nio.charset.Charset;
 import java.util.Optional;
+
 import org.apache.commons.codec.binary.Base64;
 
-import org.generation.blogPessoal.model.UserLogin;
-import org.generation.blogPessoal.model.Usuario;
-import org.generation.blogPessoal.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-//informa que a classe é um serviço
+import minhaLojaDeGames.lojaGames.model.UserLogin;
+import minhaLojaDeGames.lojaGames.model.Usuario;
+import minhaLojaDeGames.lojaGames.repository.UsuarioRepository;
+
 @Service
 public class UsuarioService {
 	
 	@Autowired
 	private UsuarioRepository repository;
 	
-	//recebe usuario e retorna usuario
 	public Optional <Usuario> CadastrarUsuario(Usuario usuario) { 
 		Optional<Usuario> user = repository.findByUsuario(usuario.getUsuario());
 		if(user.isPresent()) {
@@ -28,20 +28,16 @@ public class UsuarioService {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		String senhaEncoder = encoder.encode(usuario.getSenha());
-		//passa a senha encriptada
 		usuario.setSenha(senhaEncoder);
-		
-		//retorna usuario com a senha já encriptada
 		return Optional.of(repository.save(usuario));
 	}
 	
-	//retorna para o usuario a os atributos que estão em "UserLogin"
+	
 	public Optional<UserLogin> Logar(Optional<UserLogin> user){
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		Optional<Usuario> usuario = repository.findByUsuario(user.get().getUsuario());
 		
 		if(usuario.isPresent()) {
-			//pega duas senhas, uma encriptada e outra não, se forem iguais retorna true
 			if(encoder.matches(user.get().getSenha(), usuario.get().getSenha())) {
 				String auth = user.get().getUsuario() + ":" + user.get().getSenha();
 				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
@@ -58,5 +54,6 @@ public class UsuarioService {
 		
 		return null;
 	}
+
 
 }

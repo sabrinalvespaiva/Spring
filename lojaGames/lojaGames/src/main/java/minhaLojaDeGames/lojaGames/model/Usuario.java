@@ -1,4 +1,4 @@
-package org.generation.blogPessoal.model;
+package minhaLojaDeGames.lojaGames.model;
 
 import javax.persistence.Entity;
 
@@ -60,7 +60,5 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	
 
 }
