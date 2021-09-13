@@ -6,8 +6,14 @@ import java.util.Optional;
 import org.generation.blogPessoal.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, List>{
+public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	//procure pelo nome do atributo usuario, optional poiq os valores podem vir nulos
 	public Optional<Usuario> findByUsuario(String usuario);
+	
+	// Usaremos na Sessão de Testes
+    public List<Usuario> findAllByNomeContainingIgnoreCase(String nome);
+
+    // Usaremos na Sessão de Testes
+    public Usuario findByNome(String nome);
 
 }
