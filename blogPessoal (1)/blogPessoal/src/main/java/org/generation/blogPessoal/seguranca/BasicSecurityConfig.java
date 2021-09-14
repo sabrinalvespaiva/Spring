@@ -1,7 +1,9 @@
 package org.generation.blogPessoal.seguranca;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,9 +21,14 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	//para deixar explicito que é uma sobreescrita de metodo
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService);
-	}
+	protected void configure(AuthenticationManagerBuilder auth)
+			throws Exception {
+			auth.userDetailsService(userDetailsService);
+			auth.inMemoryAuthentication()
+			.withUser("root")
+			.password(passwordEncoder().encode("sabrina1995"))
+			.authorities("ROLE_USER");
+			}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -36,6 +43,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter{
 		//para ele logar/cadastrar ele precisa de acesso para fazer essa requisição
 		.antMatchers("/usuarios/logar").permitAll()
 		.antMatchers("/usuarios/cadastrar").permitAll()
+		.antMatchers(HttpMethod.OPTIONS).permitAll()
 		//todas as outras requisicoes deverao ser autenticadas
 		.anyRequest().authenticated()
 		.and().httpBasic()

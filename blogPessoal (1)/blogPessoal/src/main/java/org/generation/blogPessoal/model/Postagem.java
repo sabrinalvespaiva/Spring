@@ -48,6 +48,10 @@ public class Postagem {
 	@JsonIgnoreProperties("postagem")
 	private Tema tema;
 	
+	@ManyToOne
+    @JsonIgnoreProperties("postagem")
+    private Usuario usuario;
+	
 	//criação dos metodos getters(pegar) e setters(definir)
 	public long getId() {
 		return id;
